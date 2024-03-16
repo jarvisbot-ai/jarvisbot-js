@@ -3,5 +3,5 @@ node_modules/
 
 /pri/
 /.idea/
-/demo/package-lock.json
-package-lock.json
+demo/package-lock.json
+sdk/package-lock.json

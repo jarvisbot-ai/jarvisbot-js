@@ -1,0 +1,17 @@
+{
+  "name": "demo",
+  "version": "1.0.0",
+  "main": "demo_01.html",
+  "description": "this is a demo",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "demo_01": "vite --open demo_01.html"
+  },
+  "author": "yanyan",
+  "devDependencies": {
+    "vite": "^5.1.6"
+  },
+  "dependencies": {
+    "jarvisbot-js": "^1.0.4"
+  }
+}

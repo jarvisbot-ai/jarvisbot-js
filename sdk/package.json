@@ -1,8 +1,8 @@
 {
   "name": "jarvisbot-js",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "description": "JarvisBot JavaScript SDK API library",
-  "main": "index.ts",
+  "main": "JarvisBotSDK/jarvisBotSDK.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "publish_npm": "npm publish"
@@ -17,9 +17,10 @@
     "sdk"
   ],
   "files": [
-    "src/",
+    "JarvisBotSDK/",
     "package.json",
-    "README.md"
+    "README.md",
+    "tsconfig.json"
   ],
   "author": "yanyan",
   "license": "Apache-2.0",

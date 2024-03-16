@@ -1,10 +1,10 @@
-import type {SdkConfig, DynamicDispatchUrl} from "./src/type";
-import type {Message} from "./src/params_chat";
-import {JarvisMsg} from "./src/enums";
-import {inner_completions, inner_dispatch, inner_img2img, inner_txt2img} from "./src/request";
-import JarvisChatParams from "./src/params_chat";
-import JarvisTxt2imgParams from "./src/params_txt2img";
-import JarvisImg2imgParams from "./src/params_img2img";
+import type {SdkConfig, DynamicDispatchUrl} from "./type";
+import type {Message} from "./params_chat";
+import {JarvisMsg} from "./enums";
+import {inner_completions, inner_dispatch, inner_img2img, inner_txt2img} from "./request";
+import JarvisChatParams from "./params_chat";
+import JarvisTxt2imgParams from "./params_txt2img";
+import JarvisImg2imgParams from "./params_img2img";
 
 export default class JarvisBotSDK {
 
@@ -56,7 +56,7 @@ export default class JarvisBotSDK {
     }
 
     /**
-     * src
+     * JarvisBotSDK
      * @public
      */
     public base = {

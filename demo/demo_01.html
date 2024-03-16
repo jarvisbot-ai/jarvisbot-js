@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>title</title>
+</head>
+<body>
+<h1>JarvisBotSDK-js-demo</h1>
+<div>
+    <span>input</span>
+<!--    <textarea id = "chat_content" style="width: 100%;height: 60px">how to write a js sdk?</textarea>-->
+    <textarea id = "chat_content" style="width: 100%;height: 60px">beautiful girl,at night</textarea>
+
+
+    <hr>
+    <span>output</span>
+    <hr>
+
+    <textarea id = "chat_result" style="width: 100%;height: 200px">==>  </textarea>
+    <hr>
+    <span>app_token:</span>
+    <input id="app_token" style="width: 280px" value=""/>
+    <span>base_url:</span>
+    <input id="base_url" style="width: 280px" disabled>
+    <button id="init">init</button>
+    <hr>
+    <button id="chat_stream">chat(sse)</button>
+    <button id="stop_sse">stop sse</button>
+    <button id="clean_result">clean result</button>
+    <button id="chat_default">chat_default</button>
+    <span style="border: 2px solid #887a7a;padding: 3px">
+        <button id="txt2img">txt2img</button>
+        <span>batch_size:</span><input type="number" id="img_num" step="1" min="1" max="8" value="1" required/>
+    </span>
+    <button id="img2img">img2img</button>
+    <span style="border: 2px solid #887a7a;padding: 3px">
+        <button id="base64_2img">base64img change</button>
+        <input id="base64" />
+    </span>
+    <hr>
+    <img id="img_result_1" src=""/>
+    <img id="img_result_2" src=""/>
+    <hr>
+    <img id="img_result_10" class="temp_img" src="" style="width: 100px"/>
+    <img id="img_result_11" class="temp_img" src="" style="width: 100px"/>
+    <img id="img_result_12" class="temp_img" src="" style="width: 100px"/>
+    <img id="img_result_13" class="temp_img" src="" style="width: 100px"/>
+    <img id="img_result_14" class="temp_img" src="" style="width: 100px"/>
+    <img id="img_result_15" class="temp_img" src="" style="width: 100px"/>
+    <img id="img_result_16" class="temp_img" src="" style="width: 100px"/>
+    <img id="img_result_17" class="temp_img" src="" style="width: 100px" alt=""/>
+    <hr>
+
+
+</div>
+
+
+</body>
+
+
+
+
+
+<!--<script src="./static/JarvisBotSDK.min.js"></script>-->
+<!--<script>-->
+<script type="module">
+    // import JarvisBotSDK from "../sdk/JarvisBotSDK/index.ts";
+    import JarvisBotSDK from "jarvisbot-js";
+    let client_ready = false
+    let jarvisBot;
+    let chat_result_dom = document.getElementById("chat_result")
+    let content_dom = document.getElementById("chat_content")
+    let local_es = null
+    let img_dom_1 = document.getElementById("img_result_1")
+    let img_dom_2 = document.getElementById("img_result_2")
+    let img_base64;
+
+    function init(){
+        let conf = {
+            "app_token": document.getElementById("app_token").value
+        }
+        jarvisBot = new JarvisBotSDK(conf)
+        jarvisBot.dispatch().then((res) => {
+            console.log(res)
+            document.getElementById("app_token").value = conf.app_token
+            document.getElementById("base_url").value = conf.base_url
+            client_ready = true;
+        }).catch((e) => {
+            console.log(e.message)
+            document.getElementById("base_url").value = ""
+            client_ready = false;
+            alert("init err please check")
+        });
+    }
+
+
+    function chat_stream() {
+        if (!client_ready){
+            alert("Please init client first!")
+            return;
+        }
+        let chat_params = jarvisBot.param.getChatParams([
+            {
+                content: "You are a helpful assistant.",
+                role: "system"
+            },
+            {
+                content: content_dom.value,
+                role: "user"
+            }
+        ]);
+        chat_params.stream = true;
+        jarvisBot.base.chat(chat_params)
+            .then((eventSource) => {
+                if (eventSource){
+                    local_es = eventSource
+                    eventSource.onmessage = function(event) {
+                        console.log('sse data:', event.data);
+                        let output = "";
+                        if ("[DONE]"===event.data){
+                            output = output + "\n==>  "
+                        }else {
+                            let data_obj = JSON.parse(event.data)
+                            let output_content =  data_obj.choices[0].delta.content
+                            if (output_content !== undefined){
+                                output = output + data_obj.choices[0].delta.content
+                            }
+                            console.log(data_obj.choices[0].delta.content)
+                        }
+                        chat_result_dom.value = chat_result_dom.value + output
+                    };
+                }
+            })
+            .catch((error) => console.error(error));
+    }
+
+
+
+    function stop_sse() {
+        if (local_es){
+            local_es.close()
+        }
+    }
+
+    function clean_result() {
+        chat_result_dom.value = "==>  "
+    }
+
+    function chat_default() {
+        if (!client_ready){
+            alert("Please init client first!")
+            return;
+        }
+        let chat_params = jarvisBot.param.getChatParams([
+            {
+                content: "You are a helpful assistant.",
+                role: "system"
+            },
+            {
+                content: content_dom.value,
+                role: "user"
+            }
+        ]);
+        jarvisBot.base.chat(chat_params).then((result)=>{
+            console.log(result)
+            try {
+                const result_obj = JSON.parse(result)
+                console.log(result_obj)
+                const output = result_obj.choices[0].message.content
+                chat_result_dom.value = chat_result_dom.value + output + "\n==>  "
+            }catch (e) {
+
+            }
+        })
+    }
+
+    function txt2img() {
+        if (!client_ready){
+            alert("Please init client first!")
+            return;
+        }
+        let param = jarvisBot.param.getTxt2imgParams(content_dom.value);
+        let img_num = parseInt(document.getElementById("img_num").value, 10); // 尝试将输入的值转换为整数
+        if (!isNaN(img_num) && img_num >= 1 && img_num <= 8) {
+            //
+        } else {
+            img_num = 1;
+        }
+        console.log("batch_size:", img_num);
+        param.batch_size = img_num
+        jarvisBot.base.txt2img(param).then((result)=>{
+            console.log("web txt2img result",result)
+            try {
+                const result_obj = JSON.parse(result)
+                // console.log(result_obj)
+                const imgBase64 = result_obj.images[0]
+                img_base64 = imgBase64
+                img_dom_1.src = `data:image/png;base64,${imgBase64}`
+                for (let i = 0; i < 8; i++) {
+                    document.getElementById("img_result_1"+i).src = ""
+                }
+                for (let i = 0; i < result_obj.images.length; i++) {
+                    let tempImgBase64 = result_obj.images[i]
+                    console.log(i,tempImgBase64)
+                    document.getElementById("img_result_1"+i).src = `data:image/png;base64,${tempImgBase64}`
+                }
+            }catch (e) {
+
+            }
+        })
+    }
+
+    function img2img() {
+        if (!client_ready){
+            alert("Please init client first!")
+            return;
+        }
+        if (!img_base64){
+            alert("Please generate an image first!")
+            return;
+        }
+        let prompt = content_dom.value
+        let param = jarvisBot.param.getImg2imgParams(prompt,[img_base64]);
+
+        jarvisBot.base.img2img(param).then((result)=>{
+            console.log("web img2img result",result)
+            try {
+                const result_obj = JSON.parse(result)
+                console.log(result_obj)
+                const imgBase64 = result_obj.images[0]
+                img_dom_2.src = `data:image/png;base64,${imgBase64}`
+            }catch (e) {
+
+            }
+        })
+    }
+
+    function base64_2img() {
+        let temp = document.getElementById("base64").value
+        let temp2 = temp.replace(/'/g, '')
+        img_dom_2.src = "data:image/png;base64,"+temp2
+    }
+
+    document.getElementById("chat_stream").onclick = chat_stream;
+    document.getElementById("stop_sse").onclick = stop_sse;
+    document.getElementById("clean_result").onclick = clean_result;
+    document.getElementById("chat_default").onclick = chat_default;
+    document.getElementById("txt2img").onclick = txt2img;
+    document.getElementById("img2img").onclick = img2img;
+    document.getElementById("base64_2img").onclick = base64_2img;
+    document.getElementById("init").onclick = init;
+
+
+
+</script>
+</html>
