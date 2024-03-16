@@ -1,0 +1,24 @@
+{
+  "name": "jarvisbot-js",
+  "version": "1.0.0",
+  "description": "JarvisBot JavaScript SDK API library",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jarvisbot-ai/jarvisbot-js.git#release"
+  },
+  "keywords": [
+    "jarvis",
+    "js",
+    "sdk"
+  ],
+  "author": "yanyan",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/jarvisbot-ai/jarvisbot-js/issues"
+  },
+  "homepage": "https://github.com/jarvisbot-ai/jarvisbot-js/tree/release#readme"
+}
