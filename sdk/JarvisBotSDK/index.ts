@@ -76,7 +76,7 @@ export default class JarvisBotSDK {
     }
 
     public static version_info = {
-        version_str : "v1.0.0_2024_0316_2054"
+        version_str : "v1.0.6_2024_0317_0030"
     }
 
     /**

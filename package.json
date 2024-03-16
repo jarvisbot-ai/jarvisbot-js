@@ -1,0 +1,10 @@
+{
+  "name": "jarvisbots-build",
+  "version": "0.0.1",
+  "scripts": {
+    "fatherBuild": "father build"
+  },
+  "dependencies": {
+    "father": "^4.4.0"
+  }
+}

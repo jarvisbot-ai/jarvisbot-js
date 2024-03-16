@@ -5,3 +5,5 @@ node_modules/
 /.idea/
 demo/package-lock.json
 sdk/package-lock.json
+/package-lock.json
+/demo/static/JarvisBotSDK.min.js

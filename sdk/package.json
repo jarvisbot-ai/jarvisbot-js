@@ -1,8 +1,8 @@
 {
   "name": "jarvisbot-js",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "description": "JarvisBot JavaScript SDK API library",
-  "main": "JarvisBotSDK/jarvisBotSDK.ts",
+  "main": "JarvisBotSDK/index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "publish_npm": "npm publish"
