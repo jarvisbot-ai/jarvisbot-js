@@ -1,1 +1,1 @@
-# jarvisbot-node
+# jarvisbot-js
