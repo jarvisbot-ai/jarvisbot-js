@@ -75,6 +75,10 @@ export default class JarvisBotSDK {
         getImg2imgParams: JarvisBotSDK.getJarvisImg2imgParams
     }
 
+    public static version_info = {
+        version_str : "v1.0.0_2024_0316_2054"
+    }
+
     /**
      * constructor
      * @param conf

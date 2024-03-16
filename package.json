@@ -2,9 +2,10 @@
   "name": "jarvisbot-js",
   "version": "1.0.0",
   "description": "JarvisBot JavaScript SDK API library",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "publish_npm": "npm publish"
   },
   "repository": {
     "type": "git",
@@ -14,6 +15,11 @@
     "jarvis",
     "js",
     "sdk"
+  ],
+  "files": [
+    "src/",
+    "package.json",
+    "README.md"
   ],
   "author": "yanyan",
   "license": "Apache-2.0",

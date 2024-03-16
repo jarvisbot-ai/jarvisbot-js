@@ -144,7 +144,7 @@ export async function inner_completions(params: JarvisChatParams, chat_url: Stri
                                 eventSource.close();
                             } else {
                                 eventSource.close();
-                                console.error('EventSource failed:', event);
+                                // console.error('EventSource failed:', event);
                             }
                         };
                     }).catch((e) => {
